@@ -8,12 +8,22 @@ services:
       discovery.type: "single-node"
     volumes:
       - /var/elasticdata:/usr/share/elasticsearch/data
+    deploy:
+      restart_policy:
+        delay: 2s
+        max_attempts: 3
+        window: 120s
     networks:
       - elk
   kibana:
     image: docker.elastic.co/kibana/kibana:6.2.2
     ports:
       - "127.0.0.1:5601:5601"
+    deploy:
+      restart_policy:
+        delay: 2s
+        max_attempts: 3
+        window: 120s
     networks:
       - elk
 networks:
