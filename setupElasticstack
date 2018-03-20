@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ ! -d "/var/elasticdata" ]; then
+	mkdir /var/elasticdata
+	chmod g+rwx /var/elasticdata
+	chgrp 0 /var/elasticdata
+fi
+
+docker-compose up -d
