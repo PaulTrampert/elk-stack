@@ -6,10 +6,4 @@ if [ ! -d "/var/elasticdata" ]; then
 	chgrp 0 /var/elasticdata
 fi
 
-if [ ! -d "/var/elasticdata2" ]; then
-	mkdir /var/elasticdata2
-	chmod g+rwx /var/elasticdata2
-	chgrp 0 /var/elasticdata2
-fi
-
 docker-compose up -d
