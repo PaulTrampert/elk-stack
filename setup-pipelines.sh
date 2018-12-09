@@ -14,6 +14,6 @@ done
 
 for filename in ./pipelines/*.json; do
   pipeline=$(basename -- "$filename")
-  pipeline=${filename%.*}
+  pipeline=${pipeline%.*}
   curl -vX PUT http://localhost:9200/_ingest/pipeline/$pipeline -d @$filename --header "Content-Type: application/json"
 done
