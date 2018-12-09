@@ -8,13 +8,24 @@ pipeline {
 
   stages {
 
-    stage('Deploy') {
+    stage('Deploy Stack') {
       when {
         expression {env.BRANCH_NAME == 'master'}
       }
 
       steps {
         sh 'docker stack deploy --compose-file docker-compose.yml elk-stack'
+      }
+    }
+
+    stage('Deploy Pipelines') {
+      when {
+        expression {env.BRANCH_NAME == 'master'}
+      }
+
+      steps {
+        sh 'chmod +x setup-pipelines.sh'
+        sh './setup-pipelines.sh'
       }
     }
   }

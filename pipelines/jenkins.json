@@ -1,0 +1,41 @@
+{
+  "description": "Pipeline for processing jenkins logs",
+  "processors": [
+    {
+      "grok": {
+        "field": "message",
+        "patterns": [
+          "%{JENKINS_DATE:jenkinsDate} %{LOGGER:logger} %{METHOD:method}\n%{LEVEL:level}: %{GREEDYMULTILINE:message}"
+        ],
+        "pattern_definitions": {
+          "JENKINS_DATE": "[A-Z][a-z]{2} {1,2}\\d{1,2}, \\d{4} {1,2}\\d{1,2}:\\d{2}:\\d{2} {1,2}(AM|PM)",
+          "LOGGER": "\\S+",
+          "METHOD": "\\S+",
+          "LEVEL": "[A-Z]+",
+          "GREEDYMULTILINE": "(.|\\n)*"
+        }
+      }
+    },
+    {
+      "date": {
+        "field": "jenkinsDate",
+        "formats": [
+          "MMM dd, yyyy hh:mm:ss a"
+        ]
+      }
+    },
+    {
+      "remove": {
+        "field":"jenkinsDate"
+      }
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{ _ingest.on_failure_message }}"
+      }
+    }
+  ]
+}
