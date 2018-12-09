@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
-CODE=0
-while [ $CODE != 200 ]
+SECONDS=0
+while [ $(curl -I -o /dev/null -w "%{http_code}" http://localhost:9200) != 200 ]
 do
-  if [ $SECONDS > 300 ] then
+  if [ $SECONDS -gt 300 ]
+  then
     echo "Tired of waiting. I don't think elasticsearch is coming up..."
     exit 1
   fi
-  echo "Received $CODE response from elasticsearch. Waiting 5 seconds then trying again..."
+  echo "Doesn't look like elasticsearch is up yet. Waiting 5 seconds before trying again..."
   sleep 5s
-  CODE=`curl -I -o /dev/null -w "%{http_code}" http://localhost:9200`
 done
 
 for filename in ./pipelines/*.json; do
