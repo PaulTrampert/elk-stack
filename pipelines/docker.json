@@ -6,6 +6,9 @@
         "field": "tags",
         "value": ["{{docker.container.labels.com.docker.stack.namespace}}", "{{docker.container.labels.com.docker.swarm.service.name}}"]
       },
+      "dot_expander": {
+        "field": "docker.container.labels.com.docker.stack.namespace"
+      },
       "pipeline": {
         "if": "docker.container.labels.com.docker.stack.namespace == 'elk-stack'",
         "name": "elk-stack"
