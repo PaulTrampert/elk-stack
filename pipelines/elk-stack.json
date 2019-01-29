@@ -12,7 +12,7 @@
     {
       "set": {
         "field": "pipeline.elk-stack.error",
-        "value": "{{ _ingest.on_failure_message }}"
+        "value": "{{ _ingest.on_failure_processor_type }}: {{ _ingest.on_failure_message }}"
       }
     }
   ]
