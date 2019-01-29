@@ -33,7 +33,7 @@
   "on_failure": [
     {
       "set": {
-        "field": "error.message",
+        "field": "pipeline.jenkins.error",
         "value": "{{ _ingest.on_failure_message }}"
       }
     }
