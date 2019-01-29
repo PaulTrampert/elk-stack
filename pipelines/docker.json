@@ -10,7 +10,7 @@
         "field": "docker.container.labels.com.docker.stack.namespace"
       },
       "pipeline": {
-        "if": "docker.container.labels.com.docker.stack.namespace == 'elk-stack'",
+        "if": "ctx.docker.container.labels.com.docker.stack.namespace == 'elk-stack'",
         "name": "elk-stack"
       }
     }
