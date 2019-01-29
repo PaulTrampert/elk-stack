@@ -1,0 +1,22 @@
+{
+  "description": "Pipeline for processing docker logs",
+  "processors": [
+    {
+      "append": {
+        "field": "tags",
+        "value": ["{{docker.container.labels.com.docker.stack.namespace}}", "{{docker.container.labels.com.docker.swarm.service.name}}"]
+      },
+      "pipeline": {
+        "name": "{{docker.container.labels.com.docker.stack.namespace}}"
+      }
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{ _ingest.on_failure_message }}"
+      }
+    }
+  ]
+}
