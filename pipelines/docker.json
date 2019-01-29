@@ -2,16 +2,16 @@
   "description": "Pipeline for processing docker logs",
   "processors": [
     {
-      "append": {
-        "field": "tags",
-        "value": ["{{docker.container.labels.com.docker.stack.namespace}}", "{{docker.container.labels.com.docker.swarm.service.name}}"]
-      },
       "dot_expander": {
         "field": "docker.container.labels.com.docker.stack.namespace"
       },
       "pipeline": {
         "if": "ctx.docker.container.labels.com.docker.stack.namespace == 'elk-stack'",
         "name": "elk-stack"
+      },
+      "append": {
+        "field": "tags",
+        "value": ["{{docker.container.labels.com.docker.stack.namespace}}", "{{docker.container.labels.com.docker.swarm.service.name}}"]
       }
     }
   ],
