@@ -2,16 +2,25 @@
   "description": "Pipeline for processing docker logs",
   "processors": [
     {
+      "remove": {
+        "field": "tags"
+      }
+    },
+    {
       "dot_expander": {
-        "field": "docker.container.labels.com.docker.stack.namespace"
-      },
+        "field": "docker.container.labels.com.docker.swarm.service.name"
+      }
+    },
+    {
       "pipeline": {
-        "if": "ctx.docker.container.labels.com.docker.stack.namespace == 'elk-stack'",
-        "name": "elk-stack"
-      },
+        "if": "ctx.docker.container.labels.com.docker.swarm.service.name == 'elk-stack_kibana'",
+        "name": "elk-stack_kibana"
+      }
+    },
+    {
       "append": {
         "field": "tags",
-        "value": ["{{docker.container.labels.com.docker.stack.namespace}}", "{{docker.container.labels.com.docker.swarm.service.name}}"]
+        "value": ["{{_source.tags}}", "{{docker.container.labels.com.docker.stack.namespace}}", "{{docker.container.labels.com.docker.swarm.service.name}}"]
       }
     }
   ],
