@@ -2,9 +2,14 @@
   "description": "Pipeline for processing docker logs",
   "processors": [
     {
-      "set": {
-        "field": "originalTags",
-        "value": "{{tags}}"
+      "foreach": {
+        "field": "tags",
+        "processor": {
+          "append": {
+            "field": "originalTags",
+            "value": "{{_ingest._value}}"
+          }
+        }
       }
     },
     {
@@ -24,9 +29,14 @@
       }
     },
     {
-      "append": {
-        "field": "tags",
-        "value": "{{originalTags}}"
+      "foreach": {
+        "field": "originalTags",
+        "processor": {
+          "append": {
+            "field": "tags",
+            "value": "{{_ingest._value}}"
+          }
+        }
       }
     },
     {
