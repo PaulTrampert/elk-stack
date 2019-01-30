@@ -2,6 +2,12 @@
   "description": "Pipeline for processing docker logs",
   "processors": [
     {
+      "set": {
+        "field": "originalTags",
+        "value": "{{tags}}"
+      }
+    },
+    {
       "remove": {
         "field": "tags"
       }
@@ -20,7 +26,13 @@
     {
       "append": {
         "field": "tags",
-        "value": ["{{_source.tags}}", "{{docker.container.labels.com.docker.stack.namespace}}", "{{docker.container.labels.com.docker.swarm.service.name}}"]
+        "value": "{{tags}}"
+      }
+    },
+    {
+      "append": {
+        "field": "tags",
+        "value": ["{{docker.container.labels.com.docker.stack.namespace}}", "{{docker.container.labels.com.docker.swarm.service.name}}"]
       }
     }
   ],
