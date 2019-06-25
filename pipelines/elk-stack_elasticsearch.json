@@ -1,0 +1,19 @@
+{
+  "description": "Pipeline for processing elk-stack logs",
+  "processors": [
+    {
+      "json": {
+        "field": "message",
+        "add_to_root": true
+      }
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "pipeline.elk-stack.error",
+        "value": "{{ _ingest.on_failure_processor_type }}: {{ _ingest.on_failure_message }}"
+      }
+    }
+  ]
+}
