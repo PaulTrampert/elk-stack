@@ -25,8 +25,10 @@ pipeline {
       }
 
       steps {
-        sh 'chmod +x setup-pipelines.sh'
-        sh './setup-pipelines.sh'
+        withCredentials([usernameColonPassword(credentialsId: 'elk_credentials', variable: 'ELK_CREDS')]) {
+          sh 'chmod +x setup-pipelines.sh'
+          sh './setup-pipelines.sh'
+        }
       }
     }
   }

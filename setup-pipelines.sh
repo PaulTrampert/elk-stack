@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SECONDS=0
-while [ $(curl -I -o /dev/null -w "%{http_code}" http://localhost:9200) != 200 ]
+while [ $(curl --user "$ELK_CREDS" -I -o /dev/null -w "%{http_code}" https://elasticsearch.ptrampert.com) != 200 ]
 do
   if [ $SECONDS -gt 300 ]
   then
@@ -15,5 +15,5 @@ done
 for filename in ./pipelines/*.json; do
   pipeline=$(basename -- "$filename")
   pipeline=${pipeline%.*}
-  curl -vX PUT http://localhost:9200/_ingest/pipeline/$pipeline -d @$filename --header "Content-Type: application/json"
+  curl --user "$ELK_CREDS" -vX PUT https://elasticsearch.ptrampert.com/_ingest/pipeline/$pipeline -d @$filename --header "Content-Type: application/json"
 done
