@@ -24,8 +24,14 @@
     },
     {
       "pipeline": {
-        "name": "_source.container.labels.com_docker_swarm_service_name",
-        "ignore_failure": true
+        "if": "ctx.container.labels.com_docker_swarm_service_name == 'elk-stack_kibana'",
+        "name": "elk-stack_kibana"
+      }
+    },
+    {
+      "pipeline": {
+        "if": "ctx.container.labels.com_docker_swarm_service_name == 'elk-stack_elasticsearch'",
+        "name": "elk-stack_elasticsearch"
       }
     },
     {
