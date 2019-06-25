@@ -24,7 +24,7 @@
     },
     {
       "pipeline": {
-        "name": "ctx.container.labels.com_docker_swarm_service_name",
+        "name": "_source.container.labels.com_docker_swarm_service_name",
         "ignore_failure": true
       }
     },
