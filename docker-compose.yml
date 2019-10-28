@@ -18,6 +18,7 @@ services:
       - "traefik.http.routers.elasticsearch.rule=Host(`elasticsearch.ptrampert.com`)"
       - "traefik.http.routers.elasticsearch.entrypoints=websecure"
       - "traefik.http.routers.elasticsearch.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.elasticsearch.middlewares=auth"
       - "traefik.http.services.elasticsearch-service.loadbalancer.server.port=9200"
     networks:
       - traefik
@@ -33,6 +34,7 @@ services:
       - "traefik.http.routers.kibana.rule=Host(`kibana.ptrampert.com`)"
       - "traefik.http.routers.kibana.entrypoints=websecure"
       - "traefik.http.routers.kibana.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.kibana.middlewares=auth"
       - "traefik.http.services.kibana-service.loadbalancer.server.port=5601"
     networks:
       - traefik
