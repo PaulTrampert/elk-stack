@@ -1,9 +1,7 @@
-version: '3'
+version: '3.7'
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
-    ports:
-      - "9200:9200"
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.1
     environment:
       - "discovery.type=single-node"
       - bootstrap.memory_lock=true
@@ -15,20 +13,32 @@ services:
         delay: 2s
         max_attempts: 3
         window: 120s
+      labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.elasticsearch.rule=Host(`elasticsearch.ptrampert.com`)"
+      - "traefik.http.routers.elasticsearch.entrypoints=websecure"
+      - "traefik.http.routers.elasticsearch.tls.certresolver=letsencrypt"
+      - "traefik.http.services.elasticsearch-service.loadbalancer.server.port=9200"
     networks:
-      - elk
+      - traefik
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.4.0
-    ports:
-      - "5601:5601"
+    image: docker.elastic.co/kibana/kibana:7.4.1
     deploy:
       restart_policy:
         delay: 2s
         max_attempts: 3
         window: 120s
+      labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kibana.rule=Host(`kibana.ptrampert.com`)"
+      - "traefik.http.routers.kibana.entrypoints=websecure"
+      - "traefik.http.routers.kibana.tls.certresolver=letsencrypt"
+      - "traefik.http.services.kibana-service.loadbalancer.server.port=5601"
     networks:
-      - elk
+      - traefik
 networks:
-  elk:
+  traefik:
+    external: true
+    name: traefik
 volumes:
   elasticsearch:
