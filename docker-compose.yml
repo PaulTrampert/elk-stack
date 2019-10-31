@@ -8,6 +8,8 @@ services:
       - "ES_JAVA_OPTS=-Xms1024m -Xmx2048m"
     volumes:
       - elasticsearch:/usr/share/elasticsearch/data
+    labels:
+    - "co.elastic.logs/module=elasticsearch"
     deploy:
       restart_policy:
         delay: 2s
@@ -24,6 +26,8 @@ services:
       - traefik
   kibana:
     image: docker.elastic.co/kibana/kibana:7.4.1
+    labels:
+    - "co.elastic.logs/module=kibana"
     deploy:
       restart_policy:
         delay: 2s
